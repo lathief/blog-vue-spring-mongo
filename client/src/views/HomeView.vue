@@ -6,32 +6,33 @@
         This is the description of the blog built with Vue.Js, Spring Boot,
         Mongo DB
       </p>
-      <div v-if="posts.length === 0">
-        <h2>No post found at the moment</h2>
-      </div>
+     
     </div>
     <div class="container">
+      <div v-if="posts.length === 0" class="text-center">
+        <h2>No post found at the moment</h2>
+      </div>
       <div class="row">
         <div class="col-md-4" v-for="post in posts" :key="post._id">
           <div class="card mb-4 shadow-sm">
             <div class="card-body">
               <h2 class="card-img-top">{{ post.title }}</h2>
-              <p class="card-text">{{ post.body }}</p>
+              <p class="card-text">{{ post.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group" style="margin-bottom: 20px">
                   <router-link
-                    :to="{ name: 'Post', params: { id: post._id } }"
+                    :to="{ name: 'post', params: { id: post.id } }"
                     class="btn btn-sm btn-outline-secondary"
                     >View Post
                   </router-link>
                   <router-link
-                    :to="{ name: 'Edit', params: { id: post._id } }"
+                    :to="{ name: 'edit', params: { id: post.id } }"
                     class="btn btn-sm btn-outline-secondary"
                     >Edit Post
                   </router-link>
                   <button
                     class="btn btn-sm btn-outline-secondary"
-                    v-on:click="deletePost(post._id)"
+                    v-on:click="deletePost(post.id)"
                   >
                     Delete Post
                   </button>
@@ -59,26 +60,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      posts: [
-        {
-          title: "Title",
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-          date_posted: "20. Dezember 2012",
-          author: "Anonymous",
-        },
-        {
-          title: "Title",
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-          date_posted: "20. Dezember 2012",
-          author: "Anonymous",
-        },
-        {
-          title: "Title",
-          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-          date_posted: "20. Dezember 2012",
-          author: "Anonymous",
-        },
-      ],
+      posts: [],
     };
   },
   created() {
@@ -87,14 +69,13 @@ export default {
   methods: {
     fetchPosts() {
       axios
-        .get(`${server.baseURL}/blog/posts`)
+        .get(`${server.baseURL}/blog/contents`)
         .then((data) => (this.posts = data.data));
     },
     deletePost(id) {
       axios
-        .delete(`${server.baseURL}/blog/delete?postID=${id}`)
+        .delete(`${server.baseURL}/blog/content/${id}`)
         .then((data) => {
-          console.log(data);
           window.location.reload();
         });
     },

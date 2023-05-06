@@ -87,18 +87,18 @@ export default {
       };
 
       axios
-        .put(`${server.baseURL}/blog/edit?postID=${this.id}`, postData)
+        .put(`${server.baseURL}/blog/content/${this.id}`, postData)
         .then((data) => {
-          router.push({ name: "home" });
+          this.$router.push('/');
         });
     },
     getPost() {
       axios
-        .get(`${server.baseURL}/blog/post/${this.id}`)
+        .get(`${server.baseURL}/blog/content/${this.id}`)
         .then((data) => (this.post = data.data));
     },
     navigate() {
-      router.go(-1);
+      this.$router.push('/');
     },
   },
 };

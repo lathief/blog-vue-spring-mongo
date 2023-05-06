@@ -22,7 +22,6 @@
 <script>
 import { server } from "@/utils/helper";
 import axios from "axios";
-import router from "vue-router";
 export default {
   data() {
     return {
@@ -37,11 +36,11 @@ export default {
   methods: {
     getPost() {
       axios
-        .get(`${server.baseURL}/blog/post/${this.id}`)
+        .get(`${server.baseURL}/blog/content/${this.id}`)
         .then((data) => (this.post = data.data));
     },
     navigate() {
-      router.go(-1);
+      this.$router.push('/');
     },
   },
 };
